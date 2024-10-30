@@ -22,6 +22,7 @@ func DeleteTodoMethod(id int) []Todo {
 		if item.ID == id {
 			Todos = append(Todos[:index], Todos[index+1:]...)
 		}
+		fmt.Println(Todos)
 	}
 	return Todos
 }

@@ -10,9 +10,9 @@ import (
 )
 
 func setupRoutes(app *fiber.App) {
-	app.Get("/api/todo", routes.GetTodo)
+	app.Get("/api/todo", routes.GetAllTdo)
 	app.Post("/api/todo", routes.CreateTodo)
-	app.Delete("/api/todo/:id", routes.GetTodo)
+	app.Delete("/api/todo/:id", routes.DeleteTodo)
 	//get single Todo Item
 	app.Get("/api/todo/:id", routes.GetTodo)
 	//Update Todo
