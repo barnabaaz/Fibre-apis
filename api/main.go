@@ -1,13 +1,42 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 
 	"github.com/barnabaaz/Fibre-apis/routes"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	_ "github.com/lib/pq"
 )
+
+//Database Instance
+
+var db *sql.DB
+
+//Database settings
+
+const (
+	host     = "localhost"
+	port     = 5433
+	user     = "postgres"
+	password = "postgres"
+	dbname   = "barnabas"
+)
+
+func connnectDb() error {
+	var err error
+	db, err = sql.Open("postgres", fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname))
+	if err != nil {
+		return err
+	}
+	if err = db.Ping(); err != nil {
+		return err
+	}
+	return nil
+
+}
 
 func setupRoutes(app *fiber.App) {
 	app.Get("/api/todo", routes.GetAllTdo)
@@ -23,6 +52,10 @@ func setupRoutes(app *fiber.App) {
 	})
 }
 func main() {
+	if err := connnectDb(); err != nil {
+		log.Fatal(err)
+
+	}
 	app := fiber.New()
 	//get all todo items
 	app.Use(logger.New())
